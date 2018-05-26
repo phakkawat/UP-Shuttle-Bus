@@ -1,0 +1,674 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UP Shittle Bus Time - Table</title>
+<link href="../css/simpleGridTemplateFull.css" rel="stylesheet" type="text/css">
+</head>
+<body onload="startTime(),GetData1(),CalNum2(),CalNum3(),CalNum4()">
+<!-- Main Container -->
+<div class="container"> 
+  <!-- Header -->
+  <header class="header">
+    <pre class="logo"><img src="../images/up.png" alt="" width="60" height="70" align="absmiddle"/> UP Shuttle Bus Time - Table <img src="../images/Engneering.png" alt="" width="70" height="70" align="absmiddle"/><script>
+		function startTime()
+		{
+    		var today = new Date();
+   			var h = today.getHours();
+   			var m = today.getMinutes();
+   			var s = today.getSeconds();
+   			m = checkTime(m);
+    		s = checkTime(s);
+    		document.getElementById('txt').innerHTML =
+   			h + ":" + m + ":" + s;
+    		var t1 = setTimeout(startTime, 500);
+		}
+		function checkTime(i) {
+    		if (i < 10) {i = "0" + i};
+    		return i;
+		}
+		</script><div id="txt"></div></pre>
+  </header>
+  <section class="intro"> </section> 
+<div class="gallery">
+<div class="thumbnail"> <a href="#"></a>
+      <h4>Bus Number</h4>
+    </div>
+    <div class="thumbnail"> <a href="#"></a>
+      <h4>Station</h4>
+    </div>
+    <div class="thumbnail"> <a href="#"></a>
+      <h4>Time left</h4>
+    </div>
+    <div class="thumbnail"> <a href="#"></a>
+      <h4>Status</h4>
+    </div>
+<div class="CE">
+	<script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID1 = "UPshuttlebus";
+  		const KEY1 = "3z99tWK3mbuMNPL";
+  		const SECRET1 = "6iA9pseKG0NzGtyUXD5xGuLkq";
+
+  		const ALIAS1 = "HTMLMonitor01";
+  		const thing1 = "Station01";
+
+  		var microgearCE = Microgear.create
+		({
+    		key: KEY1,
+    		secret: SECRET1,
+    		alias : ALIAS1
+  		});
+
+  		microgearCE.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data1").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic1").innerHTML = "Topic = " + topic;
+   		 	var split_msg1 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg1[0])!='undefined' && split_msg1[0]=="")
+			{
+				if (split_msg1[1] != "99")
+				{
+					document.getElementById("BusNumCE").innerHTML = split_msg1[1];
+					if (split_msg1[2]=="E")
+					{
+						document.getElementById("BusTimerCE").innerHTML = "About 3 Minute Left";
+					}
+					else if (split_msg1[2]=="O")
+					{
+						document.getElementById("BusTimerCE").innerHTML = "Not Pass";
+					}
+				}
+				else if (split_msg1[1] == "99")
+				{
+					document.getElementById("BusNumCE").innerHTML = "N/A";
+					document.getElementById("BusTimerCE").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		microgearCE.on('connected', function()
+		{
+    		microgearCE.setAlias(ALIAS1);
+    		document.getElementById("connected_NETPIE1").innerHTML = "Connected to NETPIE"
+  		});
+
+  		microgearCE.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearCE.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearCE.resettoken(function(err)
+		{
+    		microgearCE.connect(APPID1);
+		});
+		
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h1 id="connected_NETPIE1" style="display: none"></h1>
+		<p id="raw_data1" style="display: none"></p>
+		<p id="get_topic1" style="display: none"></p>
+		<h4 id="BusNumCE">N/A</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+      <h4>CE</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h4 id="BusTimerCE">N/A</h4>
+    </div>
+    <script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID11 = "PYthontest";
+  		const KEY11 = "38pyLOaBCS5PpS4";
+  		const SECRET11 = "UEWFjDvremARxdJWfO6aavwYr";
+
+  		const ALIAS11 = "HTMLMonitorCE";
+		const thing11 = "StatusMonitorCE";
+
+  		var HCounterCE = Microgear.create
+		({
+    		key: KEY11,
+    		secret: SECRET11,
+    		alias : ALIAS11
+  		});
+
+  		HCounterCE.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data11").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic11").innerHTML = "Topic = " + topic;
+   		 	var split_msg11 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg11[0])!='undefined' && split_msg11[0]=="")
+			{
+				if (split_msg11[1]=="1")
+				{
+					document.getElementById("HCounterCE").innerHTML = "Low Density";
+				}
+				else if (split_msg11[1]=="2")
+				{
+					document.getElementById("HCounterCE").innerHTML = "Medium Density";
+				}
+				else if (split_msg11[1]=="3")
+				{
+					document.getElementById("HCounterCE").innerHTML = "High Density";
+				}
+				else if (split_msg11[1]=="0")
+				{
+					document.getElementById("HCounterCE").innerHTML = "Empty";
+				}
+				else
+				{
+					document.getElementById("HCounterCE").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		HCounterCE.on('connected', function()
+		{
+    		HCounterCE.setAlias(ALIAS11);
+    		document.getElementById("connected_NETPIE11").innerHTML = "Connected to NETPIE"
+  		});
+
+  		HCounterCE.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterCE.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterCE.resettoken(function(err)
+		{
+    		HCounterCE.connect(APPID11);
+		});
+		
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+    	<h1 id="connected_NETPIE11" style="display: none"></h1>
+		<p id="raw_data11" style="display: none"></p>
+		<p id="get_topic11" style="display: none"></p>
+     	<h4 id="HCounterCE">N/A</h4>
+    </div>
+</div>
+<div class="SCI">
+	<script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID2 = "UPshuttlebus";
+  		const KEY2 = "3z99tWK3mbuMNPL";
+  		const SECRET2 = "6iA9pseKG0NzGtyUXD5xGuLkq";
+
+  		const ALIAS2 = "HTMLMonitor02";
+  		const thing2 = "Station02";
+
+  		var microgearSCI = Microgear.create({
+    		key: KEY2,
+    		secret: SECRET2,
+    		alias : ALIAS2
+  		});
+
+  		microgearSCI.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data2").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic2").innerHTML = "Topic = " + topic;
+    		var split_msg2 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg2[0])!='undefined' && split_msg2[0]=="")
+			{
+      			if (split_msg2[1] != "99")
+				{
+					document.getElementById("BusNumSCI").innerHTML = split_msg2[1];
+					if (split_msg2[2]=="E")
+					{
+						document.getElementById("BusTimerSCI").innerHTML = "About 2 Minute Left";
+					}
+					else if (split_msg2[2]=="O")
+					{
+						document.getElementById("BusTimerSCI").innerHTML = "Not Pass";
+					}
+				}
+				else if (split_msg2[1] == "99")
+				{
+					document.getElementById("BusNumSCI").innerHTML = "N/A";
+					document.getElementById("BusTimerSCI").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		microgearSCI.on('connected', function()
+		{
+    		microgearSCI.setAlias(ALIAS2);
+    		document.getElementById("connected_NETPIE2").innerHTML = "Connected to NETPIE"
+  		});
+
+  		microgearSCI.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearSCI.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearSCI.resettoken(function(err)
+		{
+    		microgearSCI.connect(APPID2);
+  		});
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h1 id="connected_NETPIE2" style="display: none"></h1>
+		<p id="raw_data2" style="display: none"></p>
+		<p id="get_topic2" style="display: none"></p>
+		<h4 id="BusNumSCI">N/A</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+      <h4>SCI</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h4 id="BusTimerSCI">N/A</h4>
+    </div>
+    <script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID22 = "PYthontest";
+  		const KEY22 = "38pyLOaBCS5PpS4";
+  		const SECRET22 = "UEWFjDvremARxdJWfO6aavwYr";
+
+  		const ALIAS22 = "HTMLMonitorSCI";
+  		const thing22 = "StatusMonitorSCI";
+
+  		var HCounterSCI = Microgear.create
+		({
+    		key: KEY22,
+    		secret: SECRET22,
+    		alias : ALIAS22
+  		});
+
+  		HCounterSCI.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data22").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic22").innerHTML = "Topic = " + topic;
+   		 	var split_msg22 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg22[0])!='undefined' && split_msg22[0]=="")
+			{
+				if (split_msg22[1]=="1")
+				{
+					document.getElementById("HCounterSCI").innerHTML = "Low Density";
+				}
+				else if (split_msg22[1]=="2")
+				{
+					document.getElementById("HCounterSCI").innerHTML = "Medium Density";
+				}
+				else if (split_msg22[1]=="3")
+				{
+					document.getElementById("HCounterSCI").innerHTML = "High Density";
+				}
+				else if (split_msg22[1]=="0")
+				{
+					document.getElementById("HCounterSCI").innerHTML = "Empty";
+				}
+				else
+				{
+					document.getElementById("HCounterSCI").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		HCounterSCI.on('connected', function()
+		{
+    		HCounterSCI.setAlias(ALIAS22);
+    		document.getElementById("connected_NETPIE22").innerHTML = "Connected to NETPIE"
+  		});
+
+  		HCounterSCI.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterSCI.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterSCI.resettoken(function(err)
+		{
+    		HCounterSCI.connect(APPID22);
+		});
+		
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+    	<h1 id="connected_NETPIE22" style="display: none"></h1>
+		<p id="raw_data22" style="display: none"></p>
+		<p id="get_topic22" style="display: none"></p>
+     	<h4 id="HCounterSCI">N/A</h4>
+    </div>
+</div>
+<div class="ICT">
+    <script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID3 = "UPshuttlebus";
+  		const KEY3 = "3z99tWK3mbuMNPL";
+  		const SECRET3 = "6iA9pseKG0NzGtyUXD5xGuLkq";
+
+  		const ALIAS3 = "HTMLMonitor03";
+  		const thing3 = "Station03";
+
+  		var microgearICT = Microgear.create({
+    		key: KEY3,
+    		secret: SECRET3,
+    		alias : ALIAS3
+  		});
+
+  		microgearICT.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data3").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic3").innerHTML = "Topic = " + topic;
+    		var split_msg3 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg3[0])!='undefined' && split_msg3[0]=="")
+			{
+      			if (split_msg3[1] != "99")
+				{
+					document.getElementById("BusNumICT").innerHTML = split_msg3[1];
+					if (split_msg3[2]=="E")
+					{
+						document.getElementById("BusTimerICT").innerHTML = "Not Pass";
+					}
+					else if (split_msg3[2]=="O")
+					{
+						document.getElementById("BusTimerICT").innerHTML = "Not Pass";
+					}
+				}
+				else if (split_msg3[1] == "99")
+				{
+					document.getElementById("BusNumICT").innerHTML = "N/A";
+					document.getElementById("BusTimerICT").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		microgearICT.on('connected', function()
+		{
+    		microgearICT.setAlias(ALIAS3);
+    		document.getElementById("connected_NETPIE3").innerHTML = "Connected to NETPIE"
+  		});
+
+  		microgearICT.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearICT.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearICT.resettoken(function(err)
+		{
+    		microgearICT.connect(APPID3);
+  		});
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h1 id="connected_NETPIE3" style="display: none"></h1>
+		<p id="raw_data3" style="display: none"></p>
+		<p id="get_topic3" style="display: none"></p>
+		<h4 id="BusNumICT">N/A</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+      <h4>ICT</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h4 id="BusTimerICT">N/A</h4>
+    </div>
+    <script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID33 = "PYthontest";
+  		const KEY33 = "38pyLOaBCS5PpS4";
+  		const SECRET33 = "UEWFjDvremARxdJWfO6aavwYr";
+
+  		const ALIAS33 = "HTMLMonitorICT";
+  		const thing33 = "StatusMonitorICT";
+
+  		var HCounterICT = Microgear.create
+		({
+    		key: KEY33,
+    		secret: SECRET33,
+    		alias : ALIAS33
+  		});
+
+  		HCounterICT.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data33").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic33").innerHTML = "Topic = " + topic;
+   		 	var split_msg33 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg33[0])!='undefined' && split_msg33[0]=="")
+			{
+				if (split_msg33[1]=="1")
+				{
+					document.getElementById("HCounterICT").innerHTML = "Low Density";
+				}
+				else if (split_msg33[1]=="2")
+				{
+					document.getElementById("HCounterICT").innerHTML = "Medium Density";
+				}
+				else if (split_msg33[1]=="3")
+				{
+					document.getElementById("HCounterICT").innerHTML = "High Density";
+				}
+				else if (split_msg33[1]=="0")
+				{
+					document.getElementById("HCounterICT").innerHTML = "Empty";
+				}
+				else
+				{
+					document.getElementById("HCounterICT").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		HCounterICT.on('connected', function()
+		{
+    		HCounterICT.setAlias(ALIAS33);
+    		document.getElementById("connected_NETPIE33").innerHTML = "Connected to NETPIE"
+  		});
+
+  		HCounterICT.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterICT.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterICT.resettoken(function(err)
+		{
+    		HCounterICT.connect(APPID33);
+		});
+		
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+    	<h1 id="connected_NETPIE33" style="display: none"></h1>
+		<p id="raw_data33" style="display: none"></p>
+		<p id="get_topic33" style="display: none"></p>
+     	<h4 id="HCounterICT">N/A</h4>
+    </div>
+</div>
+<div class="EN">
+    <script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID4 = "UPshuttlebus";
+  		const KEY4 = "3z99tWK3mbuMNPL";
+  		const SECRET4 = "6iA9pseKG0NzGtyUXD5xGuLkq";
+
+  		const ALIAS4 = "HTMLMonitor04";
+  		const thing4 = "Station04";
+
+  		var microgearEN = Microgear.create({
+    		key: KEY4,
+    		secret: SECRET4,
+    		alias : ALIAS4
+  		});
+
+  		microgearEN.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data4").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic4").innerHTML = "Topic = " + topic;
+    		var split_msg4 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg4[0])!='undefined' && split_msg4[0]=="")
+			{
+      			if (split_msg4[1] != "99")
+				{
+					document.getElementById("BusNumEN").innerHTML = split_msg4[1];
+					if (split_msg4[2]=="E")
+					{
+						document.getElementById("BusTimerEN").innerHTML = "Now Arrived";
+					}
+					else if (split_msg4[2]=="O")
+					{
+						document.getElementById("BusTimerEN").innerHTML = "Now Arrived";
+					}
+				}
+				else if (split_msg4[1] == "99")
+				{
+					document.getElementById("BusNumEN").innerHTML = "N/A";
+					document.getElementById("BusTimerEN").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		microgearEN.on('connected', function()
+		{
+    		microgearEN.setAlias(ALIAS4);
+    		document.getElementById("connected_NETPIE4").innerHTML = "Connected to NETPIE"
+  		});
+
+  		microgearEN.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearEN.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		microgearEN.resettoken(function(err)
+		{
+    		microgearEN.connect(APPID4);
+  		});
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h1 id="connected_NETPIE4" style="display: none"></h1>
+		<p id="raw_data4" style="display: none"></p>
+		<p id="get_topic4" style="display: none"></p>
+		<h4 id="BusNumEN">N/A</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+      <h4>EN</h4>
+    </div>
+    <div class="thumbnail2"> <a href="#"></a>
+		<h4 id="BusTimerEN">N/A</h4>
+    </div>
+    <script src="https://cdn.netpie.io/microgear.js"></script>
+	<script>
+			
+  		const APPID44 = "PYthontest";
+  		const KEY44 = "38pyLOaBCS5PpS4";
+  		const SECRET44 = "UEWFjDvremARxdJWfO6aavwYr";
+
+  		const ALIAS44 = "HTMLMonitorEN";
+  		const thing44 = "StatusMonitorEN";
+
+  		var HCounterEN = Microgear.create
+		({
+    		key: KEY44,
+    		secret: SECRET44,
+    		alias : ALIAS44
+  		});
+
+  		HCounterEN.on('message',function(topic,msg)
+		{
+    		document.getElementById("raw_data44").innerHTML = "Data from Espresso Lite V2.0 = " + msg;
+    		document.getElementById("get_topic44").innerHTML = "Topic = " + topic;
+   		 	var split_msg44 = msg.split("/");
+    		console.log(msg);
+    		if(typeof(split_msg44[0])!='undefined' && split_msg44[0]=="")
+			{
+				if (split_msg44[1]=="1")
+				{
+					document.getElementById("HCounterEN").innerHTML = "Low Density";
+				}
+				else if (split_msg44[1]=="2")
+				{
+					document.getElementById("HCounterEN").innerHTML = "Medium Density";
+				}
+				else if (split_msg44[1]=="3")
+				{
+					document.getElementById("HCounterEN").innerHTML = "High Density";
+				}
+				else if (split_msg44[1]=="0")
+				{
+					document.getElementById("HCounterEN").innerHTML = "Empty";
+				}
+				else
+				{
+					document.getElementById("HCounterEN").innerHTML = "N/A";
+				}
+    		}
+  		});
+
+  		HCounterEN.on('connected', function()
+		{
+    		HCounterEN.setAlias(ALIAS44);
+    		document.getElementById("connected_NETPIE44").innerHTML = "Connected to NETPIE"
+  		});
+
+  		HCounterEN.on('present', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterEN.on('absent', function(event)
+		{
+    		console.log(event);
+  		});
+
+  		HCounterEN.resettoken(function(err)
+		{
+    		HCounterEN.connect(APPID44);
+		});
+		
+	</script>
+    <div class="thumbnail2"> <a href="#"></a>
+    	<h1 id="connected_NETPIE44" style="display: none"></h1>
+		<p id="raw_data44" style="display: none"></p>
+		<p id="get_topic44" style="display: none"></p>
+     	<h4 id="HCounterEN">N/A</h4>
+    </div>
+  </div>
+</div>
+<div class="copyright">Lable : Low Density(1-3 person) , Medium Density(4-7 person) , High Density(over 8 person)</div>
+</div>
+</body>
+</html>
